@@ -6,7 +6,7 @@ from app3_subdoc import app3_subdoc
 data = json.load(open("workdir/data.json", encoding='utf-8-sig'))
 
 
-doc = DocxTemplate("workdir/template.docx")
+doc = DocxTemplate("template.docx")
 
 
 # application3 = doc.new_subdoc();
