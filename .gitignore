@@ -1,6 +1,4 @@
-template.docx
-data.json
-generated_doc.docx
+workdir/
 
 # Byte-compiled / optimized / DLL files
 __pycache__/
