@@ -1,3 +1,7 @@
+template.docx
+data.json
+generated_doc.docx
+
 # Byte-compiled / optimized / DLL files
 __pycache__/
 *.py[cod]
