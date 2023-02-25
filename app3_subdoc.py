@@ -11,9 +11,12 @@ def app3_subdoc(data, doc):
     for file_entry in data["КартинкиПриложенияВ"]:
         counter += 1
         if counter % 2 != 0:
-            row = table.add_row()
+            row_pictures = table.add_row()
+            row_pictures.height = Mm(100)
+            row_descriptions = table.add_row()
         else:
-            row = table.rows[len(table.rows) - 1]
+            row_pictures = table.rows[len(table.rows) - 2]
+            row_descriptions = table.rows[len(table.rows) - 1]
         file_guid = file_entry["ИмяФайла"]
         file_extension = file_entry["Расширение"]
         file_base64 = file_entry["ДанныеФайла"]
@@ -24,9 +27,15 @@ def app3_subdoc(data, doc):
 
         # Добавляем картинку в файл.
         current_col = 0 if counter % 2 == 0 else 1
+        cell_pictures = row_pictures.cells[current_col]
+        run = cell_pictures.paragraphs[0].add_run()
+        picture = run.add_picture(filename, width=Mm(75), height=None)
 
-        row.cells[current_col].paragraphs[0].add_run().add_picture(
-            filename, width = Mm(70), height = None)
+        cell_descriptions = row_descriptions.cells[current_col]
+        description = file_entry["Описание"]
+        par_description = cell_descriptions.paragraphs[0].text = description
+
+
 
     sd.add_paragraph("Тест!!!")
     return sd
