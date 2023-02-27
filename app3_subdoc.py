@@ -35,7 +35,7 @@ def app3_subdoc(data, doc):
                 file.write(image)
 
             # Добавляем картинку в файл.
-            current_col = 0 if counter % 2 == 0 else 1
+            current_col = 1 if counter % 2 == 0 else 0
             cell_pictures = row_pictures.cells[current_col]
             cell_pictures.vertical_alignment = WD_ALIGN_VERTICAL.BOTTOM
             picture_paaragraph = cell_pictures.paragraphs[0]
