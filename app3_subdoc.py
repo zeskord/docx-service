@@ -17,8 +17,10 @@ def app3_subdoc(data, doc):
         table = sd.add_table(rows=0, cols=2)
 
         counter = 0
+        picture_group_length = len(picture_group["ДанныеФайлов"])
         for file_entry in picture_group["ДанныеФайлов"]:
-            counter += 1
+            counter = counter + 1
+            is_last_pic = counter == (picture_group_length)
             if counter % 2 != 0:
                 row_pictures = table.add_row()
                 row_pictures.height = Mm(100)
@@ -35,8 +37,14 @@ def app3_subdoc(data, doc):
                 file.write(image)
 
             # Добавляем картинку в файл.
-            current_col = 1 if counter % 2 == 0 else 0
-            cell_pictures = row_pictures.cells[current_col]
+            current_col_id = 1 if counter % 2 == 0 else 0
+            cell_pictures = row_pictures.cells[current_col_id]
+            # Если это последняя картинка и она нечетная, то нужно объединить последние ячейки.
+            if is_last_pic and current_col_id == 0:
+                cell_pictures.merge(row_pictures.cells[current_col_id + 1])
+                # print(f'is_last_pic row_pictures: {is_last_pic}')
+                # a, b = row_pictures.cells[:2]
+                # a.merge(b)
             cell_pictures.vertical_alignment = WD_ALIGN_VERTICAL.BOTTOM
             picture_paaragraph = cell_pictures.paragraphs[0]
             picture_paaragraph.alignment = WD_ALIGN_PARAGRAPH.CENTER
@@ -44,14 +52,20 @@ def app3_subdoc(data, doc):
             run = picture_paaragraph.add_run()
             picture = run.add_picture(filename, width=Mm(75), height=None)
 
-            cell_descriptions = row_descriptions.cells[current_col]
+            cell_descriptions = row_descriptions.cells[current_col_id]
+            if is_last_pic and current_col_id == 0:
+                # print(f'is_last_pic row_descriptions: {is_last_pic}')
+                # a, b = row_descriptions.cells[:2]
+                # a.merge(b)
+                cell_descriptions.merge(row_descriptions.cells[current_col_id + 1])
             description = file_entry["Описание"]
             par_description = cell_descriptions.paragraphs[0]
             par_description.alignment = WD_ALIGN_PARAGRAPH.CENTER
             description_run = par_description.add_run(description)
             description_run.font.size = Pt(12)
         
-        sd.add_paragraph(f'Рисунок {picture_group_counter}: {picture_group["ОписаниеРисунка"]}')
+        par = sd.add_paragraph(f'Рисунок {picture_group_counter}: {picture_group["ОписаниеРисунка"]}')
+        par.alignment = WD_ALIGN_PARAGRAPH.CENTER
 
 
     sd.add_paragraph("Конец!!!")
