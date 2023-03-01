@@ -6,14 +6,14 @@ from app3_subdoc import app3_subdoc
 data = json.load(open("workdir/data.json", encoding='utf-8-sig'))
 
 
-doc = DocxTemplate("template.docx")
+doc = DocxTemplate("workdir/template.docx")
 
 
 # application3 = doc.new_subdoc();
 
 
 
-data["ПриложениеВ"] = app3_subdoc(data, doc)
+# data["ПриложениеВ"] = app3_subdoc(data, doc)
 
 doc.render(data)
 doc.save("workdir/generated_doc.docx")
